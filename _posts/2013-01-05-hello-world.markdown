@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Ê¥±­²¼¾Ö
+title: Hello, World!
 ---
 
 I've spent a good part of today on the seventh iteration of tatey.com.
