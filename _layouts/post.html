@@ -1,0 +1,19 @@
+---
+layout: default
+---
+
+<article class="post">
+  <time datetime="{{ page.date | xmlschema }}">{{ page.date | date: "%d %b, %Y" }}</time>
+  <div class="header"><h2>{{ page.title }}</h2><hr></div>
+  {{ content }}
+</article>
+<div id="paginator" class="clearfix">
+  {% if page.previous %}
+    <a id="left" href="{{ page.previous.url }}" title="{{ page.previous.title }}">&larr;Older： {{ page.previous.title }}</a>
+  {% endif %}
+  {% if page.next %}
+    <a id="right" href="{{ page.next.url }}" title="{{ page.next.title }}">Newer：{{ page.next.title }} &rarr;</a>
+  {% endif %}
+</div>
+
+{% include footer.html %}

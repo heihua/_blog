@@ -1,0 +1,19 @@
+---
+layout: default
+title: @英子9034
+---
+<section class="post">
+<h2>Articles</h2>
+<hr>
+<ol class="listing">
+{% for post in site.posts %} {% capture y %}{{post.date | date:"%Y"}}{% endcapture %} {% if year != y %} {% assign year = y %}
+<li class="listing-seperator">{{ y }}</li>
+{% endif %}
+ <li class="listing-item">
+      <time datetime="{{ post.date | xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>
+      <a href="{{ post.url }}">{{ post.title }}</a>
+ </li>
+{% endfor %}
+</ol>
+</section>
+{% include footer.html %}
