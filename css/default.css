@@ -40,7 +40,6 @@ html {
 body{
 	font-size:14px;
 	font-family:Georgia, "Microsoft YaHei", serif;
-	background:#222 url('../images/logo.jpg') no-repeat right 4em;
 	color:#fff;
 	position:relative;
 	width:66em;
@@ -52,6 +51,28 @@ body{
 		background:#222;
 	}
 }
+.bg_img{
+	height:auto;
+    max-width:100%;
+    *width:100%; /*hack for ie*/
+	position:absolute;
+	top:0;
+	right:0;
+}
+
+@media only screen and (max-width:768px) {
+	.bg_img{
+		 max-width:35%;
+		 *width:35%; /*hack for ie*/
+	}
+}
+@media only screen and (max-width:480px) {
+	.bg_img{
+		 display:none;
+	}
+}
+
+
 ul li{ line-height:1.8em;}
 nav ul a:hover,nav ul a:focus {
 	-webkit-transition:all 350ms ease-in-out;
@@ -73,7 +94,7 @@ hr {
 	border-left:none;
 	border-right:none
 }
-h1{font-family:tahoma,arial,simsun,sans-serif;font-size:4.6em;color:#000;  padding:0.4em 0;}
+h1{font-family:tahoma,arial,simsun,sans-serif;font-size:4.6em;color:#000;  padding:0.3em 0;}
 h1 a:hover{ text-decoration:none;}
 @media only screen and (max-width:768px) {
 	h1 {
