@@ -2,6 +2,7 @@
 layout: default
 title: @英子9034
 ---
+
 <section class="post">
 <h2>Articles</h2>
 <hr>
@@ -11,7 +12,7 @@ title: @英子9034
 {% endif %}
  <li class="listing-item">
       <time datetime="{{ post.date | xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>
-      <a href="{{ post.url }}">{{ post.title }}</a>
+      <p><a href="{{ post.url }}">{{ post.title }}</a></p>
  </li>
 {% endfor %}
 </ol>

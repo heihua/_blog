@@ -155,13 +155,18 @@ nav li a:hover,nav li a:focus{
 	background:#ebffb4;
 	text-decoration:none;
 }
+
 h2,h3 {
 	color:#c6e567;
 	font-family:"Helvetica Neue","Helvetica",sans-serif;
 }
 h2{
-	font-size:1.5em;
+	font-size:2em;
 	font-family:Georgia,serif,"Microsoft YaHei";
+}
+h3{ 
+	color:#c6e567;
+	font-size:1.5em;
 }
 h2 a,h3 a {
 	border-bottom:1px solid #ebffb4;
@@ -180,7 +185,7 @@ h2 a,h3 a {
 	}
 }
 .post{padding-top:1em;}
-.post time{ line-height:1.5em;}
+.post time{ line-height:1.8em;}
 .post li{padding:.2em 0;}
 
 pre code{margin:1em 0; padding:1em; background:#343434; border:1px solid #444; font-size:13px;font-family:Monaco,monospace;line-height:1.6;display:block;overflow:auto;}
@@ -191,13 +196,12 @@ blockquote p{margin:0;padding:0;}
 .listing .listing-item,.listing .listing-seperator{list-style-type:none;}
 .listing .listing-seperator{color:#c6e567; font-size:1.2em; font-weight:bold; font-family:Georgia, "Microsoft YaHei", serif;}
 .listing .listing-item time{color:#fff;font-family:"Galdeano","Hiragino Sans GB","Microsoft YaHei",sans-serif; display:block; float:left;}
+.listing .listing-item  p{ padding:0; margin-left:6.5em; line-height:1.8em;}
 .listing .listing-item a {
 	color:#ebffb4;
 	text-decoration:none;
-	margin-left:6.5em;
 	font-family:Georgia, "Microsoft YaHei", serif;
 	padding:.2em 0;
-	display:block;
 }
 .listing .listing-item a:hover{
 	text-decoration:underline;	
@@ -208,7 +212,7 @@ blockquote p{margin:0;padding:0;}
 article time{
 display:block;margin-bottom:0.25em;font-weight:bold;text-transform:uppercase;color:#b3b3b3;font-family:"Helvetica Neue","Helvetica",sans-serif}@media only screen and (max-width: 568px){article time{margin-top:1.3em}}
 
-h3{font-family:Georgia,serif,"Microsoft YaHei";font-size:1.2em;color:#fff;}
+h3{font-family:Georgia,serif,"Microsoft YaHei";}
 h4{font-family:Georgia,serif,"Microsoft YaHei";font-size:1em;color:#fff;}
 #dsq-global-toolbar,#dsq-like-tooltip,#dsq-sort-by,.dsq-comment-moderate{display:none;}
 .dsq-comment-header{border: none !important;background:none !important;}
