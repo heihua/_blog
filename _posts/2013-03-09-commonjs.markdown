@@ -1,0 +1,49 @@
+---
+layout: post
+title: commonjs（2009-08）
+
+---
+
+![](http://wiki.commonjs.org/images/3/3a/Website-Logo.png)
+
+* 官网：[http://www.commonjs.org/](http://www.commonjs.org/ "http://www.commonjs.org/")
+* CommonJS让Javascript走向统治世界的路上：[http://arstechnica.com/business/2009/12/commonjs-effort-sets-javascript-on-path-for-world-domination/](http://arstechnica.com/business/2009/12/commonjs-effort-sets-javascript-on-path-for-world-domination/)
+
+### 1、what is CommonJS ?
+CommonJS API定义很多普通应用程序（主要指非浏览器的应用）使用的API，从而填补了这个空白（即不再局限在web浏览器上使用）。它的终极目标是提供一个类似Python，Ruby和Java那样丰富的标准库。这样的话，开发者可以使用CommonJS API编写应用程序，然后这些应用可以运行在不同的JavaScript解释器和不同的主机环境中。
+  
+* 服务端Javascript应用
+* 命令行工具
+* 图形界面应用
+* 混合应用（Titanium、Adobe AIR等）
+
+
+### 2、Javascript存在哪些问题（什么阻止Javascript统治世界？）
+
+* Javascript没有模块系统，为了完成Javascript脚本，工程师们必须在HTML中管理：外联、内嵌，或者手动获取或计算。没有本地的设备进行范围隔离以及依赖关系管理
+* Javascript没有标准库。它有浏览器API、数据和数学函数，但没有文件API、很少的IO流API和原始的二进制数据
+* Javascript没有为web服务器或者数据库提高的标准接口
+* Javascript没有包管理系统，管理依赖和自动化安装，除了JSAN(不要混淆为json)
+
+### 3、CommonJS是一个日益增长的标准收藏，包括
+
+* 模块
+* 二进制字符串和缓冲
+* 字符集编码
+* 二进制、缓存、文本的输入和输出（io）流
+* 系统运行参数、环境和流
+* 文件系统接口
+* 单元测试断言,运行,和报告
+* web服务器网关接口
+* 本地和远程软件包和软件包管理
+
+到目前为止,CommonJS已经集成了
+
+* 包/1.0
+* 单元测试的API(1.0)
+* 系统模块(1.0)
+* 产品规格的模块(1.1)
+
+### 4、模块（1.1.1）
+
+待续。。。

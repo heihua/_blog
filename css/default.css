@@ -28,19 +28,20 @@ section,article,aside,header,footer,nav,dialog,figure{display:block;padding:0;ma
 .pr10 {padding-right:10px;}
 
 html{color:#333;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0}table{border-collapse:collapse;border-spacing:0}fieldset,img{border:0}address,caption,cite,code,dfn,em,th,var,optgroup{font-style:normal;font-weight:400}caption{text-align:left}abbr,acronym{border:0;font-variant:normal}sup{vertical-align:text-top}sub{vertical-align:text-bottom}input,textarea,select,button,option{font-family:inherit;font-size:inherit;font-weight:inherit}h1,h2,h3,h4,h5,h6,input,textarea,select,button{font-size:100%}legend{color:#000}q:before,q:after{content:''}
-a{color:#fff;text-decoration:none;}
-a:hover{color:#ebffb4;text-decoration:underline;}
+a{color:#999;text-decoration:underline;}
+a:hover{color:#fff;text-decoration:underline;}
 img{vertical-align:middle;}
 
+h1 a{ text-decoration:none; color:#fff;}
 html {
 	 -webkit-text-size-adjust: 100%;
 	 background:#222;
-	 color:#fff;
+	 color:#999;
  }
 body{
 	font-size:14px;
-	font-family:Georgia, "Microsoft YaHei", serif;
-	color:#fff;
+	font-family:"Microsoft JhengHei","Î¢Ü›ÕýºÚów","Microsoft YaHei","Î¢ÈíÑÅºÚ",Verdana, Arial, Helvetica, sans-serif;
+	color:#999;
 	position:relative;
 	width:66em;
 	max-width:90%;
@@ -81,7 +82,7 @@ nav ul a:hover,nav ul a:focus {
 	transition:all 350ms ease-in-out;
 	border-bottom-color:#111;
 	color:#111;
-	background:#ebffb4
+	background:#fff;
 }
 
 hr {
@@ -106,7 +107,7 @@ h1 a:hover{ text-decoration:none;}
 	font-size:2.3em
 	}
 }
-p{padding:.5em 0;*padding:.4em 0;}
+p{padding:.5em 0;*padding:.4em 0; line-height:23px;}
 
 header{ position:relative;}
 
@@ -134,7 +135,7 @@ nav li a{
 	letter-spacing:0.16em;
 	text-transform:uppercase;
 	text-decoration:none;
-	color:#fff
+	color:#999
 }
 @media only screen and (max-width:768px) {
 	nav li a{
@@ -152,12 +153,12 @@ nav li a:hover,nav li a:focus{
 	-o-transition:all 350ms ease-in-out;
 	transition:all 350ms ease-in-out;
 	color:#111;
-	background:#ebffb4;
+	background:#fff;
 	text-decoration:none;
 }
 
 h2,h3 {
-	color:#c6e567;
+	color:#fff;
 	font-family:"Helvetica Neue","Helvetica",sans-serif;
 }
 h2{
@@ -165,17 +166,18 @@ h2{
 	font-family:Georgia,serif,"Microsoft YaHei";
 }
 h3{ 
-	color:#c6e567;
+	color:#fff;
 	font-size:1.5em;
+	margin:0.7em 0;
 }
 h2 a,h3 a {
-	border-bottom:1px solid #ebffb4;
-	color:#ebffb4;
+	border-bottom:1px solid #fff;
+	color:#fff;
 	text-decoration:none
 }
 
 h2 a,h3 a {
-	color:#c6e567;
+	color:#fff;
 	border-bottom-color:#222
 }
 
@@ -186,19 +188,19 @@ h2 a,h3 a {
 }
 .post{padding-top:1em;}
 .post time{ line-height:1.8em;}
-.post li{padding:.2em 0;}
-
+.post li{padding:.2em 0; padding-left:1em;}
+.post li li{ padding-left:2em;}
 pre code{margin:1em 0; padding:1em; background:#343434; border:1px solid #444; font-size:13px;font-family:Monaco,monospace;line-height:1.6;display:block;overflow:auto;}
 blockquote{display:block;text-align:justify;border-left:4px solid #ddd;}
 blockquote{margin:1em 0em;padding-left:1.5em;}
 blockquote p{margin:0;padding:0;}
 .listing{padding:1em 0;}
 .listing .listing-item,.listing .listing-seperator{list-style-type:none;}
-.listing .listing-seperator{color:#c6e567; font-size:1.2em; font-weight:bold; font-family:Georgia, "Microsoft YaHei", serif;}
-.listing .listing-item time{color:#fff;font-family:"Galdeano","Hiragino Sans GB","Microsoft YaHei",sans-serif; display:block; float:left;}
+.listing .listing-seperator{color:#fff; font-size:1.2em; font-weight:bold; font-family:Georgia, "Microsoft YaHei", serif;}
+.listing .listing-item time{color:#999;font-family:"Galdeano","Hiragino Sans GB","Microsoft YaHei",sans-serif; display:block; float:left;}
 .listing .listing-item  p{ padding:0; margin-left:6.5em; line-height:1.8em;}
 .listing .listing-item a {
-	color:#ebffb4;
+	color:#fff;
 	text-decoration:none;
 	font-family:Georgia, "Microsoft YaHei", serif;
 	padding:.2em 0;
@@ -225,8 +227,8 @@ li[id*='dsq-like-']{display: none;}
 	margin-top:1em;
 }
 #paginator a {
-	border-bottom:1px solid #ebffb4;
-	color:#ebffb4;
+	border-bottom:1px solid #fff;
+	color:#fff;
 	text-decoration:none
 }
 #paginator a:hover,#paginator a:focus {
@@ -236,7 +238,7 @@ li[id*='dsq-like-']{display: none;}
 	transition:all 350ms ease-in-out;
 	border-bottom-color:#111;
 	color:#111;
-	background:#ebffb4
+	background:#fff
 }
 #paginator:after {
 	content:".";

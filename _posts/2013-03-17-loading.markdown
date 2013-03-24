@@ -1,0 +1,156 @@
+---
+layout: post
+title: 网站性能优化——加载篇
+---
+提纲:
+
+- 介绍Web前端性能的历史，每个阶段遇到的问题，如何解决，有什么最佳实践
+- 缓存策略
+- 当前“我们”面临的性能瓶颈
+- “牛人们”的观点
+
+
+the Performation Golden Rule：
+	“80~90% of the end-user response time is spent on the frontend” —— Steve Souder
+     
+网站性能的黄金守则：
+	80%~90%的最终用户响应时间都花在前端 —— Steve Souder
+
+### what is WPO?
+
+In summary, WPO refers to the process, methodology and techniques to measure, benchmark and improve web performance
+
+### HTTP
+
+HTTP（超文本传输协议）是1990年Tim Berners-Lee提出的
+
+HTTP是基于请求/响应模式的，一个客户机于与服务器建立连接后，客户端发送一个请求给服务器，请求方式的格式为：统一的资源标识符、协议版本号，后边是MIME信息包括请求修饰符、客户机信息和可能的内容。服务器接到请求后，给与相应的响应信息，其格式为一个状态行包括信息的协议版本号，一个成功或者错误的代码，后边是MIME信息包括服务器信息、实体信息和可能的内容。
+
+浏览器中HTTP的请求并发数：
+
+![](http://img01.taobaocdn.com/tps/i1/T1vY0SXDlbXXcfWm_p-809-239.jpg)
+
+前端的时间是由HTTP控制的，每一个HTTP请求都会有开销，即使HTTP采用长连接的方式。减少http请求最有效最有利提高网站性能的方法
+
+
+
+
+### 减少http请求
+	
+减少http请求却不降低网站的丰富性的技术：
+
+- 合并js、css
+	- 将多个js合成一个js
+	- 将多个css合成一个css
+- 图片地图
+
+		<img usemap="#map1" border=0 src="/http://stevesouders.com/images/imagemap.gif?t=1364085004">
+		<map name="map1">
+		  <area shape="rect" coords="0,0,31,31" href="home.html">
+		  <area shape="rect" coords="36,0,66,31" href="gifts.html">
+		  <area shape="rect" coords="71,0,101,31" href="cart.html">
+		  <area shape="rect" coords="106,0,136,31" href="settings.html">
+		  <area shape="rect" coords="141,0,171,31" href="help.html">
+		</map>
+
+	一般来说，css sprites是首选，但是当xy坐标有用的时候图片地图同样有用，例如：地图
+
+- css sprites：将多个背景图合成一个图，而后使用background-position来调整图片
+- 内联图片： data:url
+
+### 图片优化
+
+- 1、能使用PNG格式的就不要使用GIF格式
+- 2、压缩PNG图片
+- 3、Strip needless JPEG metadata
+- 4、make all PNGs palette PNGs
+- 5、avoid AlphaImageLoader, try PNG8 or at least _filter
+- 6、crush generated images (lossless)
+- 7、use CSS sprites; stay within the palette number of colors (use PNG8)
+
+### Javascript的加载
+
+大家都知道Javascript是阻塞性脚本，也就是说当Javascript代码在运行的时候其他事情不能被浏览器处理。Javascript执行的时间越长，浏览器空闲下来响应用户输入的等待时间就越长。无论Javascript是内联的标签（`<script>javascript code</script>`）还是包含在一个外部的文件中。页面的**下载**和**渲染**工作必须停下来，等待这些脚本完成
+
+也就是，Javascript阻塞的影响两个方面：
+
+- 1、处于script以下的内容将不会继续下载
+- 2、处于script以下的内容将不会继续渲染
+
+这意味着将Javascript位置放置的越低，它对页面的阻塞影响就越小
+
+【解决的方法】： 
+
+#### I、将Javascript脚本放在body底部
+
+但是将script放在body的底部却会产生其他的问题：
+
+- 1、页面可能已经全部渲染完，但是由于Javascript没有被加载、解析、执行，页面将无法进行交互操作
+- 2、用户的交互行为必须依赖于onload事件，只有onload执行完整之后用户才可以对页面进行交互操作
+- 3、为了解决这些问题，引进了“lazy load”
+
+#### II、减少外部JS文件的个数（combine、combo）
+#### III、动态加载Javascript
+
+[http://www.nczonline.net/blog/2009/07/28/the-best-way-to-load-external-javascript/](http://www.nczonline.net/blog/2009/07/28/the-best-way-to-load-external-javascript/)
+
+[http://www.stevesouders.com/blog/2009/04/27/loading-scripts-without-blocking/](http://www.stevesouders.com/blog/2009/04/27/loading-scripts-without-blocking/)
+
+- 按需（延迟）执行
+	“动态下载JS脚本不会阻塞页面的加载”
+
+		function loadScript(url, callback){
+			var script = document.createElement("script")；
+			script.type = "text/javascript";
+			if (script.readyState){ //IE
+				script.onreadystatechange = function(){
+					if (script.readyState == "loaded" ||script.readyState == "complete"){
+						script.onreadystatechange = null;
+						callback();
+					}
+				};
+			} else { //Others
+				script.onload = function(){
+				callback();
+				};
+			}
+			script.src = url;
+			document.getElementsByTagName("head")[0].appendChild(script);
+		}
+
+- 预加载
+
+其他的挑战：
+
+- 1、document.write？？
+- 2、广告：门户网站经常有很多的广告，这些广告经常是放在页面的头部，广告中还有可能会包含一些脚本。因此广告也会对页面的性能有影响
+	【解决方法】：使用iframe或者是懒加载
+- 3、代码直接的依赖
+	一些脚本的必须优先执行，但是它要依赖于另外一个脚本文件。
+	【解决方法】：合并他们，将脚本的位置尽量放低
+
+### Cache is King
+
+术语：
+
+- Cache
+- Empty  Cache
+- Primed Cache
+
+实验：查看一个页面没有缓存和有缓存时的响应时间
+
+	- 1、什么是Empty Cached 、Primed Cached?
+	- 2、为什么浏览器会缓存资源
+	- 3、为什么HTML文档不会被缓存
+
+#### I、HTTP
+
+HTTP中两个重要的status code
+- 200 – 浏览器缓存中没有这个资源或者浏览器缓存中资源已经过期。资源从服务器上下载完成或者下载覆盖缓存中过期的资源
+- 304 – Not Modified 客户端有缓冲的文档并发出了一个条件性的请求（一般是提供If-Modified-Since头表示客户只想比指定日期更新的文档）。服务器告诉客户，原来缓冲的文档还可以继续使用。
+
+#### II、浏览器 
+#### III、本地缓存
+
+
+
