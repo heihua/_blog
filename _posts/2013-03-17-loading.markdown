@@ -2,47 +2,80 @@
 layout: post
 title: 网站性能优化——加载篇
 ---
-提纲:
 
-- 介绍Web前端性能的历史，每个阶段遇到的问题，如何解决，有什么最佳实践
-- 缓存策略
-- 当前“我们”面临的性能瓶颈
-- “牛人们”的观点
+如何提高页面的速度
 
+- 加载资源文件消耗的时间
+- 浏览器渲染的时间
 
 the Performation Golden Rule：
+	
 	“80~90% of the end-user response time is spent on the frontend” —— Steve Souder
      
 网站性能的黄金守则：
+	
 	80%~90%的最终用户响应时间都花在前端 —— Steve Souder
 
-### what is WPO?
+相关的术语：
 
-In summary, WPO refers to the process, methodology and techniques to measure, benchmark and improve web performance
-
-### HTTP
-
-HTTP（超文本传输协议）是1990年Tim Berners-Lee提出的
-
+- DNS(Domain Name System)：因特网提供的从名字到地址的映射系统。
+- 名字服务器为了减轻压力采用高效缓存的方式来优化查询开销，服务器缓存中会存放最近用过的名字以及从何处获得名字映射信息的记录
+- TTL(Time to liva 生命周期)缓存中记录的生命周期。这个值告诉客户端可以对该记录缓存多久。
+- HTTP（超文本传输协议）是1990年Tim Berners-Lee提出的.
 HTTP是基于请求/响应模式的，一个客户机于与服务器建立连接后，客户端发送一个请求给服务器，请求方式的格式为：统一的资源标识符、协议版本号，后边是MIME信息包括请求修饰符、客户机信息和可能的内容。服务器接到请求后，给与相应的响应信息，其格式为一个状态行包括信息的协议版本号，一个成功或者错误的代码，后边是MIME信息包括服务器信息、实体信息和可能的内容。
 
-浏览器中HTTP的请求并发数：
+	浏览器中HTTP的请求并发数：
 
-![](http://img01.taobaocdn.com/tps/i1/T1vY0SXDlbXXcfWm_p-809-239.jpg)
+	![](http://img01.taobaocdn.com/tps/i1/T1vY0SXDlbXXcfWm_p-809-239.jpg)
 
-前端的时间是由HTTP控制的，每一个HTTP请求都会有开销，即使HTTP采用长连接的方式。减少http请求最有效最有利提高网站性能的方法
+例子：当你在一个浏览器的地址栏中输入一个地址：caipiao.taobao.com之后会发生什么事情呢？
 
+- 1、浏览器会查询域名的IP地址
+- 2、浏览器给web服务器发送一个HTTP请求
+- 3、服务器接收到获取请求，然后处理。
+- 4、服务器处理完后给浏览器返回一个响应
+- 5、浏览器会根据服务器返回的报头信息决定如何解释该响应
+- 6、浏览器开始显示HTML
+- 7、在显示HTML页面的时候，浏览器会解析页面中的标签，获取浏览器中必须的资源：图片、css样式表、js文件、flash等
 
+【注】：
 
+- 以上是在浏览器中第一次输入地址的时候发生的事情，如果不是第一次，1解析域名的时候会去查询本地缓存（浏览DNS缓存、系统缓存），7静态资源允许浏览器对其进行缓存，因为有些资源可以直接从缓存中读取。
+- 其实，当用户在浏览器中输入一个域名的时候，系统会从hosts中寻找域名对应的IP地址，如果没有找到，系统就会从本地缓存的DNS中找到对应的IP地址，如果没有找到，他就会请求提交到DNS服务器进行域名解析
+
+### 减少DNS查询
+
+ IP地址是低级名字，域名是高级名字。计算机只能处理低级名字，不理处理高级名字，而用户不记得低级名字，喜欢使用计算机的高级名字。因此就有DNS服务器用来处理这两者的映射关系。
+ 
+浏览器给Web服务器发送请求之前的DNS解析（查找给定主机名的IP地址，web服务器的ip地址）一般需要20~120ms。DNS的时间消耗会影响页面的响应时间，
+
+1、系统的DNS缓存
+
+- 查看系统的DNS缓存：cmd - > ipconfig/displaydns（DNS Client）
+- 清除系统饿DNS缓存：cmd - > ipconfig/flushdns
+- 重启服务器可以清除DNS Client中的缓存
+
+2、浏览器的DNS缓存
+
+情况缓存的方式：
+	
+- 1、重启服务器；
+- 2、火狐浏览器，可以使用一些插件：例如DNS Flusher插件、HostAdmin
+- 3、谷歌浏览器：chrome://net-internals/#dns，可以查看浏览器中的DNS缓存列表，点击clear host cache按钮可以清楚浏览器缓存
+
+【通过使用Keep-Alive和较少的域名来减少DNS的查询】
 
 ### 减少http请求
+
+前端的时间是由HTTP控制的，每一个HTTP请求都会有开销，即使HTTP采用长连接的方式。减少http请求最有效最有利提高网站性能的方法!
 	
 减少http请求却不降低网站的丰富性的技术：
 
-- 合并js、css
+- 1、合并js、css
 	- 将多个js合成一个js
 	- 将多个css合成一个css
-- 图片地图
+- 2、 通过combo减少js、css的请求数目
+- 3、 图片地图
 
 		<img usemap="#map1" border=0 src="/http://stevesouders.com/images/imagemap.gif?t=1364085004">
 		<map name="map1">
@@ -55,20 +88,36 @@ HTTP是基于请求/响应模式的，一个客户机于与服务器建立连接
 
 	一般来说，css sprites是首选，但是当xy坐标有用的时候图片地图同样有用，例如：地图
 
-- css sprites：将多个背景图合成一个图，而后使用background-position来调整图片
-- 内联图片： data:url
+- 4、css sprites：将多个背景图合成一个图，而后使用background-position来调整图片
+- 5、 内联图片： data:url
 
-### 图片优化
+### 减少加载资源的大小
 
-- 1、能使用PNG格式的就不要使用GIF格式
-- 2、压缩PNG图片
-- 3、Strip needless JPEG metadata
-- 4、make all PNGs palette PNGs
-- 5、avoid AlphaImageLoader, try PNG8 or at least _filter
-- 6、crush generated images (lossless)
-- 7、use CSS sprites; stay within the palette number of colors (use PNG8)
+- 1、书写html时候，减少dom数目，减小html文档的大小
+- 2、http处理html，gizp压缩；服务器配置
+- 3、压缩js、css
+- 4、图片优化（保证质量的前提下）
 
-### Javascript的加载
+	- 1、能使用PNG格式的就不要使用GIF格式
+	- 2、压缩PNG图片
+	- 3、Strip needless JPEG metadata
+	- 4、make all PNGs palette PNGs
+	- 5、avoid AlphaImageLoader, try PNG8 or at least _filter
+	- 6、crush generated images (lossless)
+	- 7、use CSS sprites; stay within the palette number of colors (use PNG8)
+
+### 延迟加载+预加载
+
+#### I、图片
+
+	<img image-lazyload = "test.png"/>
+	<script>
+	Y.on('contentready', function(e){
+			//处理image-lazyload，给img的src属性值为test.png
+	})
+	</script>
+
+#### II、Javascript加载
 
 大家都知道Javascript是阻塞性脚本，也就是说当Javascript代码在运行的时候其他事情不能被浏览器处理。Javascript执行的时间越长，浏览器空闲下来响应用户输入的等待时间就越长。无论Javascript是内联的标签（`<script>javascript code</script>`）还是包含在一个外部的文件中。页面的**下载**和**渲染**工作必须停下来，等待这些脚本完成
 
@@ -81,22 +130,22 @@ HTTP是基于请求/响应模式的，一个客户机于与服务器建立连接
 
 【解决的方法】： 
 
-#### I、将Javascript脚本放在body底部
+1、将Javascript脚本放在body底部
 
 但是将script放在body的底部却会产生其他的问题：
 
-- 1、页面可能已经全部渲染完，但是由于Javascript没有被加载、解析、执行，页面将无法进行交互操作
-- 2、用户的交互行为必须依赖于onload事件，只有onload执行完整之后用户才可以对页面进行交互操作
-- 3、为了解决这些问题，引进了“lazy load”
+- 页面可能已经全部渲染完，但是由于Javascript没有被加载、解析、执行，页面将无法进行交互操作
+- 用户的交互行为必须依赖于onload事件，只有onload执行完整之后用户才可以对页面进行交互操作
+- 为了解决这些问题，引进了“lazy load”
 
-#### II、减少外部JS文件的个数（combine、combo）
-#### III、动态加载Javascript
+2、动态加载Javascript
 
-[http://www.nczonline.net/blog/2009/07/28/the-best-way-to-load-external-javascript/](http://www.nczonline.net/blog/2009/07/28/the-best-way-to-load-external-javascript/)
+- [http://www.nczonline.net/blog/2009/07/28/the-best-way-to-load-external-javascript/](http://www.nczonline.net/blog/2009/07/28/the-best-way-to-load-external-javascript/)
 
-[http://www.stevesouders.com/blog/2009/04/27/loading-scripts-without-blocking/](http://www.stevesouders.com/blog/2009/04/27/loading-scripts-without-blocking/)
+- [http://www.stevesouders.com/blog/2009/04/27/loading-scripts-without-blocking/](http://www.stevesouders.com/blog/2009/04/27/loading-scripts-without-blocking/)
 
-- 按需（延迟）执行
+- 延迟加载js
+
 	“动态下载JS脚本不会阻塞页面的加载”
 
 		function loadScript(url, callback){
@@ -131,6 +180,9 @@ HTTP是基于请求/响应模式的，一个客户机于与服务器建立连接
 
 ### Cache is King
 
+将静态的内容尽量缓存
+动态内容：会变的信息、跟用户登录相关的数据等
+
 术语：
 
 - Cache
@@ -143,14 +195,27 @@ HTTP是基于请求/响应模式的，一个客户机于与服务器建立连接
 	- 2、为什么浏览器会缓存资源
 	- 3、为什么HTML文档不会被缓存
 
-#### I、HTTP
+#### I、浏览器缓存、尽量将静态内容缓存起来
 
 HTTP中两个重要的status code
+
 - 200 – 浏览器缓存中没有这个资源或者浏览器缓存中资源已经过期。资源从服务器上下载完成或者下载覆盖缓存中过期的资源
 - 304 – Not Modified 客户端有缓冲的文档并发出了一个条件性的请求（一般是提供If-Modified-Since头表示客户只想比指定日期更新的文档）。服务器告诉客户，原来缓冲的文档还可以继续使用。
 
-#### II、浏览器 
-#### III、本地缓存
+- 浏览器缓存只会缓存GET请求的资源，POST方法的则不会缓存
 
+Wiki：[http://wiki.ued.taobao.net/doku.php?id=ued.bj:f2e:browser_cache_tech](http://wiki.ued.taobao.net/doku.php?id=ued.bj:f2e:browser_cache_tech)
 
+#### II、本地缓存 localStorge （HTML5）
 
+### 问题：
+
+1、为了便于团队协作，以及文件组织，模块化开发 —— 导致的后果是http请求太多？解决方案是自动combo文件
+
+### 性能优化书籍
+
+- 高性能网站建设指南：
+- 高性能网站进阶建设指南
+- 高性能Javascript
+
+下载你地址：[http://b.ued.taobao.net/xianling.cly/books-about-wpo/](http://b.ued.taobao.net/xianling.cly/books-about-wpo/)
